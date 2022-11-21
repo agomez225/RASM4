@@ -80,10 +80,10 @@ one:
 
     ldr x0, =head
     bl printLL
-    ret
+
+    b _start
 
 two:
-    str lr, [sp, #-16]!
 
     ldr x0, =menuOptions2
     bl putstring
@@ -98,8 +98,7 @@ two:
     cmp w1, 'b' 
     b.eq addFromFile
       
-    ldr lr, [sp], #16
-    ret
+    b _start
 
 three:
 
@@ -125,7 +124,7 @@ addFromKeyboard:
     ldr x1, =szBuffer
     ldr w0, [x1]
     cmp w0, #0
-    b.eq ret
+    b.eq _start
 
     ldr x0, =szBuffer
     bl strlen
