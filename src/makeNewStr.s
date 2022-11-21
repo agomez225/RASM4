@@ -19,10 +19,12 @@ makeNewStr:
     mov x1, x0 // copy of malloc str for iterating
 
     ldr x4, [sp], #16 // holds str length
+    // add 1 for \n
+    add x4, x4, #1 
     ldr x3, [sp], #16 // holds str address
 
 a:
-    cmp x4, #0
+    cmp x4, #1
     b.eq b
 
     ldrb w2, [x3], #1 // loads a byte from src str
@@ -31,6 +33,8 @@ a:
     b a
 
 b:
+    mov x4, #10
+    strb w4, [x1]
     ldr lr, [sp], #16
     ret
 

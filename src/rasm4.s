@@ -134,7 +134,7 @@ addFromKeyboard:
     ldr x0, =szBuffer
     bl makeNewStr
     bl makeNode
-    bl appendNode
+    bl addNode
     
     ldr x1, =szBuffer
     mov x0, #0

@@ -1,77 +1,87 @@
 .data
-
-.global appendNode
+.global addNode
 
 .text
-// x0 holds string
-appendNode:
-    
-    str lr, [sp, #-16]! // store lr
+// x0: Holds address of struct
+addNode:
+	// Preserves link register
+	STR   lr, [sp, #-16]!
 
-    ldr x2, =head // loads head ptr
-    ldr x2, [x2] // loads node from head
+	// Stores address of list head to x2
+	LDR   x2, =head
+	LDR   x3, =tail
 
-    ldr x3, =tail // loads tail ptr
-    ldr x3, [x3] // loads node from tail
+	// If head is empty, make this node head
+	LDR   x1, [x2]
+	CBZ   x1, addNode_empty
 
-    cmp x2, #0 // if head == 0, list is empty
-    b.eq empty  
+	// Dereferences head and tail
+	LDR   x2, [x2]
+	LDR   x3, [x3]
 
-    b goNext
+	// If list is empty, handle that
+	CBZ   x2, addNode_empty
 
-goNext:
-    add x2, x2, #8 // temp = head->next
-    ldr x1, [x2] // temp = temp->next
+	// If second node is NULL, handle it
+	ADD   x1, x2, #8
+	LDR   x1, [x1]
+	CBZ   x1, addNode_contOneElement
 
-    cmp x1, #0 // if temp->next == null, that means there's only one node in the LL
-    b.eq continueEmpty
+// Else, get last loop
+addNode_loop:
+	// Gets address of next node
+	ADD   x2, x2, #8
+	// Dereferences next node
+	LDR   x1, [x2]
+	
+	// If this node is the last one, handle that
+	CMP   x1, x3
+	B.EQ  addNode_contLastElement
 
-    cmp x1, x3 // if temp2->next == tail
-    b.eq continueEqual
-    ldr x2, [x2] // temp = temp-> next
-    b goNext
+	// Set next pointer to current pointer and start again
+	// Will run until finds last node
+	LDR   x2, [x2]
+	B     addNode_loop
 
-continueEmpty: // case 1, we have 1 node in LL
+// If list with one element
+addNode_contOneElement:
+	// Sets new node as tail
+	LDR   x3, =tail
+	STR   x0, [x3]
 
-    ldr x2, =tail // load tail ptr into x2
-    str x0, [x2]  // store new node into tail
-    ldr x1, =head // ldr x1 with head ptr
-    ldr x1, [x1] // loads node from head
-    add x1, x1, #8 // point to *next 
-   str x0, [x1] // first node->next = 2nd node
-    b end
+	// Dereference head
+	LDR   x2, =head
+	LDR   x2, [x2]
 
-continueEqual: // case 2, >1 nodes in LL
-    // x2 is pointing to node before tail
-    ldr x2, [x2] // ldr x2 with node before tail
-    add x2, x2, #8 // temp->next          
-    str x0, [x2] // temp->next = node
-    
-    ldr x2, =tail // load tail ptr into x2
-    str x0, [x2] // store new node into tail ptr
-    b end
+	// Sets head to point to new node
+	ADD   x2,  x2, #8
+	STR   x0, [x2]
 
-    /*ldr x2, =head
-    ldr x3, =tail
+	B     addNode_return
 
-    add x3, x3, #8 // temp ->next
-    str x0, [x3] // tail->next =newNode
+// If list with multiple elements
+addNode_contLastElement:
+	// Dereference last node
+	LDR   x2, [x2]
+	// Gets address of last node's next
+	ADD   x2,  x2, #8
+	// Stores new node to last node's next
+	STR   x0, [x2]
 
-    ldr x3, =tail 
-    str x0, [x3] // tail = newNode
-    b end*/
+	// Sets new node as tail
+	LDR   x2, =tail
+	STR   x0, [x2]
 
-// if LL is empty, set head and tail = new node
-empty: 
+	B     addNode_return
 
-    ldr x2, =head // ldr x2 w/ head
-    ldr x3, =tail // ldr x2 w/ tail
+// If list with no elements
+addNode_empty:
+	// Just set new node as head and tail
+	STR   x0, [x2]
+	STR   x0, [x3]
 
-    str x0, [x2] // store new node in head
-    str x0, [x3] // store new node in tail
-    b end
-    
-    end:
-    ldr lr, [sp], #16
-    ret
+	B     addNode_return
 
+addNode_return:
+	LDR   lr, [sp], #16
+	RET
