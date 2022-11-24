@@ -28,13 +28,13 @@ editNode__findNode:
 
 editNode__found:
 
-to do: 
+/*to do: 
 1. free memory of data segment of node
 2. get user input > szBuffer
 3. sizeOf(szBuffer)
 4. malloc
 5. copy szBuffer -> new address
-6. str new address -> node
+6. str new address -> node */
 
 
 
