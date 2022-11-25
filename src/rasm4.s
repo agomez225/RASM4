@@ -15,9 +15,6 @@ editNodeMessage: .asciz "Enter an index to edit: "
 
 kbPrompt1: .asciz "\nEnter string(s) delimited by ENTER. Press ENTER with an empty buffer to exit.\n"
 
-clear: .asciz "\033[1J"
-returnCursor: .asciz "\033[H"
-
 head: .quad 0
 tail: .quad 0
 
@@ -52,6 +49,7 @@ numberOfNodes: .quad 0
     
     bl cls
 
+noClear:
     bl printMessage
 
     bl getInput
@@ -83,12 +81,13 @@ numberOfNodes: .quad 0
 
     b  _start
 
+// maybe have an option that doesn't return to main menu until enter is pressed
 one:
 
     ldr x0, =head
     bl printLL
 
-    b _start
+    b noClear
 
 two:
 
@@ -114,8 +113,9 @@ four:
 // error check index. we have a variable that keeps track of everytime a node is
 // added so if index > (variable -1), print error and branch back to "four"
 
-// find and print the old string first
-// then allow user to edit it
+    ldr x0, =head
+    bl printLL
+ 
     ldr x0, =editNodeMessage
     bl putstring
     bl getInput
