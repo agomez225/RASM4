@@ -15,6 +15,9 @@ editNodeMessage: .asciz "Enter an index to edit: "
 
 kbPrompt1: .asciz "\nEnter string(s) delimited by ENTER. Press ENTER with an empty buffer to exit.\n"
 
+clear: .asciz "\033[1J"
+returnCursor: .asciz "\033[H"
+
 head: .quad 0
 tail: .quad 0
 
@@ -47,9 +50,12 @@ numberOfNodes: .quad 0
 	_start:
     
     
+    bl cls
 
     bl printMessage
+
     bl getInput
+    bl cls
 
     ldr x0, =szBuffer
     ldrb w1, [x0]
