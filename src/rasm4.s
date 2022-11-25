@@ -11,6 +11,7 @@ menuOptions3: .asciz "<4> Edit string. Given an index #, replace old string w/ n
 szBuffer: .skip 1024
 .equ BUFFERSIZE, 1024
 
+editNodeMessage: .asciz "Enter an index to edit: "
 
 kbPrompt1: .asciz "\nEnter string(s) delimited by ENTER. Press ENTER with an empty buffer to exit.\n"
 
@@ -54,22 +55,22 @@ numberOfNodes: .quad 0
     ldrb w1, [x0]
 
     cmp w1, #49
-    b.eq one
+    b.eq one // print nodes
 
     cmp w1, #50
-    b.eq two
+    b.eq two // add string
 
     cmp w1, #51
-    b.eq three
+    b.eq three // delete string
 
     cmp w1, #52
-    b.eq four
+    b.eq four // edit string
 
     cmp w1, #53
-    b.eq five
+    b.eq five // string search
 
     cmp w1, #54
-    b.eq six
+    b.eq six // save file
 
     cmp w1, #55
     b.eq rasm4end
@@ -103,9 +104,20 @@ two:
 three:
 
 four:
+// to do:
+// error check index. we have a variable that keeps track of everytime a node is
+// added so if index > (variable -1), print error and branch back to "four"
 
 // find and print the old string first
 // then allow user to edit it
+    ldr x0, =editNodeMessage
+    bl putstring
+    bl getInput
+    ldr x0, =szBuffer
+    bl ascint64
+
+    bl editNode
+    b _start
 
 
 five:
@@ -155,17 +167,6 @@ rasm4end:
 	svc 0
 
 // returns int(input) in x0
-getInput:
-
-    str lr, [sp, #-16]!
-
-    ldr x0, =szBuffer
-    mov x1, #BUFFERSIZE
-    bl getstring
-
-    ldr lr, [sp], #16
-    ret
-
 printMessage:
 
     str lr, [sp, #-16]!
