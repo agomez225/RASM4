@@ -18,7 +18,6 @@ kbPrompt1: .asciz "\nEnter string(s) delimited by ENTER. Press ENTER with an emp
 head: .quad 0
 tail: .quad 0
 
-heapConsumption: .quad 0
 numberOfNodes: .quad 0
 
 
@@ -170,6 +169,8 @@ printMessage:
     bl putstring
 
 
+// display # of nodes as well as heap consumption
+//===============================================
     ldr x0, =numberOfNodes
     bl ascint64
     mov x1, #8
@@ -178,7 +179,6 @@ printMessage:
     bl int64asc
     ldr x0, =szBuffer
     bl putstring
-
 
     ldr x0, =menuMessage2
     bl putstring
@@ -191,6 +191,7 @@ printMessage:
 
     ldr x0, =menuOptions3
     bl putstring
+//===============================================
 
     ldr lr, [sp], #16
     ret
