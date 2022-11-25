@@ -12,6 +12,7 @@ szBuffer: .skip 1024
 .equ BUFFERSIZE, 1024
 
 editNodeMessage: .asciz "Enter an index to edit: "
+searchMessage: .asciz "Enter a string to search for: "
 
 kbPrompt1: .asciz "\nEnter string(s) delimited by ENTER. Press ENTER with an empty buffer to exit.\n"
 
@@ -106,6 +107,15 @@ four:
 
 
 five:
+    ldr x0, =searchMessage
+    bl putstring
+    bl getInput
+
+    ldr x0, =szBuffer
+    bl copy
+    bl strSearch
+    b noClear
+
 
 six:
 
