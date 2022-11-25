@@ -21,26 +21,6 @@ tail: .quad 0
 heapConsumption: .quad 0
 numberOfNodes: .quad 0
 
-/* 
-        RASM4 TEXT EDITOR
-        Data Structure Heap Memory Consumption: 00000000 bytes
-        Number of Nodes: 0
-<1> View all strings
-
-<2> Add string
-    <a> from Keyboard
-    <b> from File. Static file named input.txt
-
-<3> Delete string. Given an index #, delete the entire string and de-allocate memory (including the node).
-
-<4> Edit string. Given an index #, replace old string w/ new string. Allocate/De-allocate as needed.
-
-<5> String search. Regardless of case, return all strings that match the substring given.
-
-<6> Save File (output.txt)
-
-<7> Quit */
-
 
 .global _start
 .text
@@ -156,6 +136,16 @@ addFromKeyboard:
     bl makeNewStr
     bl makeNode
     bl addNode
+
+// incrementing nodeCounter for memory usage
+    ldr x0, =numberOfNodes
+    bl ascint64
+    add x0, x0, #1
+    ldr x1, =numberOfNodes
+    bl int64asc
+
+    
+
     
     ldr x1, =szBuffer
     mov x0, #0
@@ -178,22 +168,22 @@ printMessage:
     str lr, [sp, #-16]!
     ldr x0, =menuMessage1
     bl putstring
-    
-    ldr x0, =heapConsumption
-    ldr x0, [x0]
+
+
+    ldr x0, =numberOfNodes
+    bl ascint64
+    mov x1, #8
+    mul x0, x0, x1
     ldr x1, =szBuffer
     bl int64asc
     ldr x0, =szBuffer
     bl putstring
 
+
     ldr x0, =menuMessage2
     bl putstring
  
     ldr x0, =numberOfNodes
-    ldr x0, [x0]
-    ldr x1, =szBuffer
-    bl int64asc
-    ldr x0, =szBuffer
     bl putstring
 
     ldr x0, =menuOptions1
