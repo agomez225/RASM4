@@ -102,6 +102,9 @@ strSearch__match:
 
 
 strSearch__notMatch:
+// load substr
+    ldr x10, [sp], #16
+
     ldr x11, [sp], #16
     ldr x2, [sp], #16
     ldr x12, [sp], #16
