@@ -14,5 +14,5 @@
 6. Save File
     - iterate through LL, get size of each string, then write to output file
 
-7. Quit
-    - need to iterate through the linked list and free each nodes' data followed by the node itself
+~~7. Quit~~
+    ~~- need to iterate through the linked list and free each nodes' data followed by the node itself~~
