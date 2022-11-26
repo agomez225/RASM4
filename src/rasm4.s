@@ -56,7 +56,7 @@ numberOfNodes: .quad 0
     b.eq six // save file
 
     cmp w1, #55
-    b.eq rasm4end
+    b.eq exit
 
     b  _start
 
