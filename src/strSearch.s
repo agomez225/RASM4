@@ -2,6 +2,7 @@
 
 strFound: .asciz "\nSubstring match! Index: " 
 noMatches: .asciz "\nNo matches found"
+arrow: .asciz " -> "
 
 .global strSearch
 // takes substring in x0
@@ -85,6 +86,12 @@ strSearch__match:
     bl int64asc
     ldr x0, =szBuffer
     bl putstring
+// print arrow
+    ldr x0, =arrow
+    bl putstring
+
+    mov x0, x11
+    bl printIndex
 
 
 // load node into x2
