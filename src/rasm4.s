@@ -16,6 +16,7 @@ searchMessage: .asciz "Enter a string to search for: "
 
 kbPrompt1: .asciz "\nEnter string(s) delimited by ENTER. Press ENTER with an empty buffer to exit.\n"
 
+continuePrompt: .asciz "\nHit enter to continue..."
 head: .quad 0
 tail: .quad 0
 
@@ -25,15 +26,13 @@ numberOfNodes: .quad 0
 .global _start
 .text
 	_start:
-    
-    
+// clears screen, print menu, get input
+//===========================
     bl cls
-
-noClear:
     bl printMessage
-
     bl getInput
     bl cls
+//===========================
 
     ldr x0, =szBuffer
     ldrb w1, [x0]
@@ -66,8 +65,8 @@ one:
 
     ldr x0, =head
     bl printLL
-
-    b noClear
+    bl hang
+    b _start
 
 two:
 
@@ -114,7 +113,8 @@ five:
     ldr x0, =szBuffer
     bl copy
     bl strSearch
-    b noClear
+    bl hang
+    b _start
 
 
 six:
@@ -164,6 +164,16 @@ addFromKeyboard:
     
 
 
+// just hangs terminal until enter is pressed
+hang:
+
+    str lr, [sp, #-16]!
+    ldr x0, =continuePrompt
+    bl putstring
+    ldr x0, =szBuffer
+    bl getstring
+    ldr lr, [sp], #16
+    ret
 
 
 rasm4end:
