@@ -3,12 +3,17 @@
 strFound: .asciz "\nSubstring match! Index: " 
 noMatches: .asciz "\nNo matches found"
 arrow: .asciz " -> "
+matchPrompt1: .asciz "\nFound "
+matchPrompt2: .asciz " hit(s) in 1 file of 1 searched\n"
+
 
 .global strSearch
 // takes substring in x0
 .text
 // substring is moved to x10, x2 is used as temp, x11 is index counter,
 // x12 is a boolean for whether any substrings were found
+// x13 is a match counter
+
 strSearch:
     str lr, [sp, #-16]! // str lr
     // convert substring to lowercase
@@ -20,6 +25,7 @@ strSearch:
 // clearing these registers & moving substr to x10
     mov x11, #0
     mov x12, #0
+    mov x13, #0
 // move new substr into x10
     mov x10, x0
     b strSearch__loop
@@ -105,6 +111,7 @@ strSearch__match:
     ldr x12, [sp], #16
     add x12, x12, #1
     add x11, x11, #1
+    add x13, x13, #1
     b strSearch__loop
 
 
@@ -138,6 +145,18 @@ strSearch_noMatches:
 strSearch__return:
     mov x0, x10
     bl free
+
+// print matches
+    ldr x0, =matchPrompt1
+    bl putstring
+    mov x0, x13
+    ldr x1, =szBuffer
+    bl int64asc
+    ldr x0, =szBuffer
+    bl putstring
+    ldr x0, =matchPrompt2
+    bl putstring
+
     ldr lr, [sp], #16
     ret
 .end
