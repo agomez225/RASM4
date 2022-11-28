@@ -8,14 +8,19 @@
 makeNode:
     
     str lr, [sp, #-16]! 
-    str x0, [sp, #-16]! // save str ptr
+// save str ptr
+    str x0, [sp, #-16]! 
 
-    mov x0, #16 // 8 bytes for data, 8bytes for nextptr
+// 8 bytes for data, 8 bytes for nextptr
+    mov x0, #16
     bl malloc
 
-    ldr x1, [sp], #16 // load str ptr
-
-    str x1, [x0] // store str ptr into first 8bytes of node
+// load str ptr
+    ldr x1, [sp], #16
+ 
+// store str ptr into first 8 bytes of node
+    str x1, [x0]
 
     ldr lr, [sp], #16 
     ret
+.end
