@@ -43,7 +43,7 @@ strSearch__loop:
     ldr x0, [x2]
 
 // convert data to lowercase; string returned in x0
-    bl copy
+    bl copy_noNL
     bl toLower
 
 // store a copy of malloc'd string into x9
