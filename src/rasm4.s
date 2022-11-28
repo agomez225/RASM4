@@ -14,11 +14,7 @@ are additive (i.e. you can call 2b 5 x times and 5 copies of the text file are
 stored in the data structure (linked list of strings). We used the enclosed file
 for possible input. We do not load automatically, only via the menu.
 //==================================================================
-
-
-
-
-
+*/
 .data 
 
 menuMessage1: .asciz "\n\t\tRASM4 TEXT EDITOR\n\tData Structure Heap Memory Consumption: "
