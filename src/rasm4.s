@@ -1,3 +1,24 @@
+/*
+Attached: RASM4
+ ==============================================================
+Program: RASM4
+ ===============================================================
+Programmer: Adrian Gomez and Aleksei Sushko
+Class: CS3B
+ ================================================================
+Description:
+For this assignment, we created a Menu driver program
+that serves as a text editor and saves the resulting text to a file. A user is
+able to enter new strings manually and/or via a file (input.txt). All additions
+are additive (i.e. you can call 2b 5 x times and 5 copies of the text file are
+stored in the data structure (linked list of strings). We used the enclosed file
+for possible input. We do not load automatically, only via the menu.
+//==================================================================
+
+
+
+
+
 .data 
 
 menuMessage1: .asciz "\n\t\tRASM4 TEXT EDITOR\n\tData Structure Heap Memory Consumption: "
