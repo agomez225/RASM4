@@ -111,7 +111,7 @@ five:
     bl getInput
 
     ldr x0, =szBuffer
-    bl copy
+    bl copy_noNL
     bl strSearch
     bl hang
     b _start
@@ -138,7 +138,7 @@ addFromKeyboard:
     b.eq _start
 
     ldr x0, =szBuffer
-    bl strlen
+    bl strlength
 
     mov x1, x0
     ldr x0, =szBuffer
