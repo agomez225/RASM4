@@ -19,7 +19,8 @@ makeNewStr:
     mov x1, x0 // copy of malloc str for iterating
 
     ldr x4, [sp], #16 // holds str length
-    // add 1 for \n
+
+    // add 2 for \n and \0
     add x4, x4, #1 
     ldr x3, [sp], #16 // holds str address
 
@@ -34,7 +35,11 @@ a:
 
 b:
     mov x4, #10
-    strb w4, [x1]
+    strb w4, [x1], #1
+
+    mov x4, #0
+    strb w4, [x1], #1
+
     ldr lr, [sp], #16
     ret
 
