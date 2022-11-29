@@ -23,9 +23,14 @@ postLoad:
 	B postLoad
 
 ret:
+
+    cmp x0, #24
+    b.ne nothing
+    add x0, x0, #1
+    b.eq nothing
+
+nothing:
 	LDR LR, [SP], #16
 	RET
 
 .end	
-
-
