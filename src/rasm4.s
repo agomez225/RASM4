@@ -25,8 +25,9 @@ menuOptions1: .asciz "\n<1> View all strings\n\n<2> Add string\n\t<a> from Keybo
 menuOptions2: .asciz "<2> Add string\n\t<a> from Keyboard\n\t<b> from File. Static file named input.txt\n\n\tEnter a selection: "
 
 menuOptions3: .asciz "<4> Edit string. Given an index #, replace old string w/ new string. Allocate/De-allocate as needed.\n\n<5> String Search. Regardless of case, return all strings that match the substring given.\n\n<6> Save File (output.txt)\n\n<7> Quit\n\n\tEnter a selection: "
-szBuffer: .skip 1024
+
 .equ BUFFERSIZE, 1024
+szBuffer: .skip BUFFERSIZE
 
 editNodeMessage: .asciz "Enter an index to edit: "
 searchMessage: .asciz "Enter a string to search for: "
